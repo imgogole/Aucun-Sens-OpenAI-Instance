@@ -9,8 +9,10 @@ OpenAI = openai.Completion
 
 no_answer = "Je ne peux pas vraiment te répondre à ça..."
 
-translatorFR_EN = deepl.DeeplTranslator(api_key = os.environ.get("TOKEN_DEEPL"), source = "fr", target = "en")
-translatorEN_FR = deepl.DeeplTranslator(api_key = os.environ.get("TOKEN_DEEPL"), source = "en", target = "fr")
+deep_l_token = os.environ.get("TOKEN_DEEPL")
+
+translatorFR_EN = deepl.DeeplTranslator(api_key = deep_l_token, source = "fr", target = "en")
+translatorEN_FR = deepl.DeeplTranslator(api_key = deep_l_token, source = "en", target = "fr")
 
 def getEng(text) :
     try:

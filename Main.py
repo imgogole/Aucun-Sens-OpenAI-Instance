@@ -3,8 +3,8 @@ import OpenAI
 import os
 from Stack import Stack
 
-def pushMessage(stack, message) :
-    stack.push(message)
+def pushMessage(stack, author, message) :
+    stack.push(author, message)
 
 def run() :
     Token = os.environ.get("TOKEN_DISCORD")
@@ -13,7 +13,10 @@ def run() :
 
     client = discord.Client(intents=intents)
 
-    lastDialogues = Stack(6, client)
+    allowedChannel = [904770002824097823, 941837130936774676]
+    lastDialogues = {}
+
+    AI_Name = "Arnaud le bigorneau"
 
     @client.event
     async def on_ready():
@@ -22,15 +25,20 @@ def run() :
     @client.event
     async def on_message(message):
         if message.author == client.user:
-            pushMessage(lastDialogues, message)
             return
 
         if message.content.startswith("!") :
             return
 
-        if message.channel.id in [904770002824097823, 941837130936774676]:
-            pushMessage(lastDialogues, message)
-            answer = OpenAI.ask(lastDialogues.getFormatDialogue())
+        if message.channel.id in allowedChannel:
+
+            if message.channel.id not in lastDialogues :
+                lastDialogues[message.channel.id] = Stack()
+
+            dialogues = lastDialogues[message.channel.id]
+            pushMessage(dialogues, message.author.name, message.content)
+            answer = OpenAI.ask(dialogues.getFormatDialogue())
+            pushMessage(dialogues, AI_Name, answer)
             await message.reply(answer)
 
     client.run(Token)
