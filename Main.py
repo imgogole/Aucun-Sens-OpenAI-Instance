@@ -33,7 +33,7 @@ def run() :
         if message.channel.id in allowedChannel:
 
             if message.channel.id not in lastDialogues :
-                lastDialogues[message.channel.id] = Stack()
+                lastDialogues[message.channel.id] = Stack(name=AI_Name)
 
             dialogues = lastDialogues[message.channel.id]
             pushMessage(dialogues, message.author.name, message.content)

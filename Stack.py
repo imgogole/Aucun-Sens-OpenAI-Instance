@@ -1,10 +1,11 @@
 class Stack :
     __Capacity = 5
     __Items = []
-    __Client = "AI"
-    def __init__(self, capacity = 6):
+    __Name = "AI"
+    def __init__(self, capacity = 6, name = "AI"):
         self.__Capacity = capacity
         self.__Items = []
+        self.__Name = name
     def push(self, author, item) :
         self.__Items.append((author, item))
         if len(self.__Items) >= self.__Capacity :
@@ -17,4 +18,4 @@ class Stack :
             format += f"{msg[0]}: {msg[1]}\n" 
             i+=1  
             
-        return format + "AI: "
+        return format + self.__Name
